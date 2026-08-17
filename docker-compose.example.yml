@@ -1,0 +1,11 @@
+# Single-domain example. Copy this to docker-compose.yml and fill in
+# your own token and domain. See README.md for a multi-domain example.
+services:
+  ddns:
+    build: .
+    restart: unless-stopped
+    environment:
+      DO_TOKEN: 'your_digitalocean_api_token_here'
+      DOMAIN: 'example.com'
+      NAME: '@'
+      UPDATE_INTERVAL: '3600'

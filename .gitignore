@@ -1,0 +1,23 @@
+# Ignore everything by default, then explicitly allow the files
+# that are safe to publish. This is intentional: new files must be
+# opted in, so secrets can't leak in by accident.
+*
+
+!.gitignore
+!README.md
+!LICENSE
+!AGENTS.md
+!Dockerfile
+!Dockerfile.*
+!*.sh
+!docker-compose.example.yml
+!.github/
+!.github/**
+
+# Never publish these — they contain real DigitalOcean API tokens.
+docker-compose.yml
+compose.yml
+compose.yaml
+bak.yml
+*.env
+.env*
