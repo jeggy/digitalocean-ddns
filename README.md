@@ -121,21 +121,6 @@ any of the examples above, or build it directly:
 docker build -t digitalocean-ddns .
 ```
 
-## CI/CD
-
-On every push to `main` (and on version tags like `v1.0.0`), a GitHub
-Actions workflow builds the image and publishes it to the GitHub Container
-Registry at [`ghcr.io/jeggy/digitalocean-ddns`](https://github.com/jeggy/digitalocean-ddns/pkgs/container/digitalocean-ddns).
-See [`.github/workflows/docker-publish.yml`](.github/workflows/docker-publish.yml).
-
-## Security note
-
-Never commit a real `docker-compose.yml`, `bak.yml`, or any file containing
-your `DO_TOKEN` — these are gitignored on purpose. Use
-[`docker-compose.example.yml`](docker-compose.example.yml) as a template and
-keep your real file local, or pass secrets via environment variables /
-Docker secrets instead.
-
 ## License
 
 [MIT](LICENSE)

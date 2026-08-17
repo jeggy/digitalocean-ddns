@@ -49,3 +49,34 @@ dig +short yet-another-example.dk
 
 - Uses the same DigitalOcean token as Caddy for DNS-01 ACME challenges
 - Only updates the `@` (root) A record — subdomains use wildcard entries or CNAME to the root
+
+## CI/CD
+
+On every push to `main` (and on version tags like `v1.0.0`), the
+`.github/workflows/docker-publish.yml` GitHub Actions workflow builds the
+image and publishes it to the GitHub Container Registry at
+`ghcr.io/jeggy/digitalocean-ddns`. Pull requests build the image (to catch
+Dockerfile breakage) but do not push it. No secrets need to be configured —
+it authenticates with the workflow's built-in `GITHUB_TOKEN`.
+
+## Repo hygiene / security
+
+This directory is public and open source. The following are never to be
+committed, and are enforced via `.gitignore`:
+
+- `docker-compose.yml` — the real, local compose file. It contains a live
+  `DO_TOKEN` for this deployment's three domains and must stay local only.
+- `bak.yml` — an older backup of the same file, also holds a live token.
+- Any `*.env` / `.env*` file.
+
+`docker-compose.example.yml` is the sanitized, placeholder-token version
+that ships in the repo — keep it in sync with the real file's structure
+(service/env var names) whenever the real one changes, but never copy real
+values into it.
+
+Before committing or pushing from this directory, grep the staged diff for
+the token prefix (`dop_v1_`) as a safety net:
+
+```bash
+git diff --cached | grep -i dop_v1_ && echo "TOKEN FOUND — DO NOT COMMIT"
+```
