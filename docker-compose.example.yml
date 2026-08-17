@@ -2,7 +2,7 @@
 # your own token and domain. See README.md for a multi-domain example.
 services:
   ddns:
-    build: .
+    image: ghcr.io/jeggy/digitalocean-ddns:latest
     restart: unless-stopped
     environment:
       DO_TOKEN: 'your_digitalocean_api_token_here'

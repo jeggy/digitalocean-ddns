@@ -53,7 +53,7 @@ docker run -d \
   -e DOMAIN='example.com' \
   -e NAME='@' \
   -e UPDATE_INTERVAL='3600' \
-  ghcr.io/<your-github-username>/digitalocean:latest
+  ghcr.io/jeggy/digitalocean-ddns:latest
 ```
 
 ### Option 2 — docker compose, single domain
@@ -68,7 +68,7 @@ docker compose up -d
 ```yaml
 services:
   ddns:
-    build: .
+    image: ghcr.io/jeggy/digitalocean-ddns:latest
     restart: unless-stopped
     environment:
       DO_TOKEN: 'your_digitalocean_api_token_here'
@@ -84,7 +84,7 @@ Run one container per domain, sharing common config via a YAML anchor. Only
 
 ```yaml
 x-common: &common
-  build: .
+  image: ghcr.io/jeggy/digitalocean-ddns:latest
   restart: unless-stopped
   environment: &common-env
     DO_TOKEN: 'your_digitalocean_api_token_here'
@@ -111,11 +111,11 @@ services:
       DOMAIN: 'yet-another-example.net'
 ```
 
-To use the prebuilt image instead of building locally, replace `build: .`
-with `image: ghcr.io/<your-github-username>/digitalocean:latest` in each
-service (or in the shared anchor).
-
 ## Building locally
+
+If you'd rather build the image yourself instead of using the prebuilt one,
+replace `image: ghcr.io/jeggy/digitalocean-ddns:latest` with `build: .` in
+any of the examples above, or build it directly:
 
 ```bash
 docker build -t digitalocean-ddns .
@@ -125,8 +125,8 @@ docker build -t digitalocean-ddns .
 
 On every push to `main` (and on version tags like `v1.0.0`), a GitHub
 Actions workflow builds the image and publishes it to the GitHub Container
-Registry at `ghcr.io/<owner>/<repo>`. See
-[`.github/workflows/docker-publish.yml`](.github/workflows/docker-publish.yml).
+Registry at [`ghcr.io/jeggy/digitalocean-ddns`](https://github.com/jeggy/digitalocean-ddns/pkgs/container/digitalocean-ddns).
+See [`.github/workflows/docker-publish.yml`](.github/workflows/docker-publish.yml).
 
 ## Security note
 
